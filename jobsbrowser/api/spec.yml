@@ -1,0 +1,94 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: Jobs Browser Pipeline module API
+host: localhost
+basePath: /
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /offers:
+    get:
+      description: Returns all actual job offers from DB
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success. Return offers.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Offer'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      description: Creates or update new job offer
+      produces:
+        - application/json
+      parameters:
+        - name: offer
+          in: body
+          description: Offer to add to DB
+          required: true
+          schema:
+            $ref: '#/definitions/Offer'
+      responses:
+        '200':
+          description: Success
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Offer:
+    type: object
+    required:
+      - offer_id
+      - url
+      - raw_html
+      - date_posted
+      - valid_through
+      - employer
+      - job_title
+      - job_location
+    properties:
+      offer_id:
+        type: string
+      url:
+        type: string
+      raw_html:
+        type: string
+      date_posted:
+        type: string
+        format: date
+      valid_through:
+        type: string
+        format: date
+      employer:
+        type: string
+      job_title:
+        type: string
+      job_location:
+        type: string
+      job_description:
+        type: string
+      job_qualifications:
+        type: string
+      job_benefits:
+        type: string
+
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
