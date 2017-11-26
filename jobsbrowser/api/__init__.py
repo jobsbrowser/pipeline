@@ -9,9 +9,10 @@ from .resources import (
 __all__ = ['init_app']
 
 
-def init_app(config_name=None):
+def init_app(config_name=None, init_extensions=True):
     app = Flask(__name__)
     app.config.from_object(get_config(config_name))
-    mongo.init_app(app)
     app.register_blueprint(pages_bp)
+    if init_extensions:
+        mongo.init_app(app)
     return app
