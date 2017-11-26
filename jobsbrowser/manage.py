@@ -3,9 +3,9 @@ from flask_script import (
     Server,
 )
 
-from api import app
+from api import init_app
 
-manager = Manager(app)
+manager = Manager(init_app)
 
 manager.add_command("runserver", Server())
 
