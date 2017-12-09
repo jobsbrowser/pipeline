@@ -36,4 +36,4 @@ def get_offers():
     offers_cursor = collection.find(
         {'valid_through': {'$gte': str(date.today())}},
     )
-    return jsonify([offer['url'] for offer in offers_cursor])
+    return jsonify({'links': [offer['url'] for offer in offers_cursor]})

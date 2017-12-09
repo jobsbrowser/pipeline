@@ -45,4 +45,4 @@ def test_get_offers_resource_query_mongo_db(test_client):
     with mock.patch('api.resources.mongo'):
         response = test_client.get('/offers')
     assert response.status_code == 200
-    assert response.data.strip() == b'[]'
+    assert json.loads(response.data.strip()) == {'links': []}
