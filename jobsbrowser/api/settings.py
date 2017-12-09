@@ -9,9 +9,6 @@ class BaseConfig:
 
 class DevConfig(BaseConfig):
     DEBUG = True
-    HOST = 'localhost'
-    PORT = 5000
-    MONGO_URI = 'mongodb://jobsbrowser:jobsbrowser@192.166.219.242:27447/jobsbrowser'
 
 
 class ProductionConfig(BaseConfig):

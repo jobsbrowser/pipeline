@@ -21,7 +21,7 @@ def test_client(app):
     return app.test_client()
 
 
-def test_ping_resource_return_pong(test_client):
+def test_ping_resource_returns_pong(test_client):
     response = test_client.get('/ping')
     assert response.status_code == 200
     assert response.data == b'pong'
