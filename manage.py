@@ -3,7 +3,7 @@ from flask_script import (
     Server,
 )
 
-from api import init_app
+from jobsbrowser.api import init_app
 
 manager = Manager(init_app)
 

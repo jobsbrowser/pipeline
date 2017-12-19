@@ -4,7 +4,7 @@ from unittest import mock
 
 import pytest
 
-from api import init_app
+from jobsbrowser.api import init_app
 
 
 @pytest.fixture(scope='session')
@@ -31,7 +31,7 @@ def test_ping_resource_returns_pong(test_client):
     {'offer_id': '1234', 'url': 'http://spam.egg/1234'},
 ])
 def test_add_offer_resource_try_add_offer_to_mongo_db(test_client, offer_dict):
-    with mock.patch('api.resources.mongo'):
+    with mock.patch('jobsbrowser.api.resources.mongo'):
         response = test_client.post(
             '/offers',
             data=json.dumps(offer_dict),
@@ -42,7 +42,7 @@ def test_add_offer_resource_try_add_offer_to_mongo_db(test_client, offer_dict):
 
 
 def test_get_offers_resource_query_mongo_db(test_client):
-    with mock.patch('api.resources.mongo'):
+    with mock.patch('jobsbrowser.api.resources.mongo'):
         response = test_client.get('/offers')
     assert response.status_code == 200
     assert json.loads(response.data.strip()) == {'links': []}
