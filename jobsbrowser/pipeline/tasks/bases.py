@@ -22,7 +22,7 @@ class TagsFindingTask(MongoDBTask):
         self.tags_dict = self._build_tags_dict()
 
     def _get_tags(self):
-        return self.mongodb["tags"]
+        return self.mongodb["tags"].find({})
 
     def _build_tags_dict(self):
         tags_dict = {}
