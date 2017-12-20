@@ -1,6 +1,17 @@
-from . import app
-from .tokenize import lower_word_tokenize
-from .mongodb_task import MongoDBTask
+from pymongo import MongoClient
+
+from .. import app
+from .utils import lower_word_tokenize
+
+
+class MongoDBTask(app.Task):
+    _mongodb = None
+
+    @property
+    def mongodb(self):
+        if self._mongodb is None:
+            self._mongodb = MongoClient(app.conf.get('MONGO_URI'))
+        return self._mongodb.get_database()
 
 
 class TagsFindingTask(MongoDBTask):
@@ -40,9 +51,3 @@ class TagsFindingTask(MongoDBTask):
 
         offer["tags"] = offer_tags
         return offer
-
-    def run(self, offer):
-        return self.find_tags(offer)
-
-
-app.register_task(TagsFindingTask())
