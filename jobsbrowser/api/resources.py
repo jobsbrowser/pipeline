@@ -37,3 +37,24 @@ def get_offers():
         {'valid_through': {'$gte': str(date.today())}},
     )
     return jsonify({'links': [offer['url'] for offer in offers_cursor]})
+
+
+@pages_bp.route('/offers', methods=['PUT'])
+def update_offer():
+    category_key = 'categories'
+    offer = request.get_json()
+    url = offer['url']
+    mongo_collection = mongo.db[current_app.config.get('OFFERS_COLLECTION')]
+    query_result = mongo_collection.find_one(
+        {'url': url},
+        projection={category_key: True},
+    )
+    if query_result is None:
+        return jsonify({}), 404
+    if offer.get(category_key):
+        offer[category_key] = list({
+            offer[category_key],
+            *query_result[category_key],
+        })
+    mongo_collection.update_one({'url': url}, {'$set': offer})
+    return jsonify({})

@@ -1,7 +1,8 @@
+---
 swagger: '2.0'
 info:
   version: '1.0.0'
-  title: Jobs Browser Pipeline module API
+  title: Jobs Browser Pipeline module API.
 host: localhost
 basePath: /
 schemes:
@@ -14,7 +15,7 @@ produces:
 paths:
   /offers:
     get:
-      description: Returns all actual job offers from DB
+      description: Returns all actual job offers URLs from DB.
       produces:
         - application/json
       responses:
@@ -23,41 +24,55 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Offer'
+              type: string
+              description: Offer  URL.
         default:
-          description: Unexpected Error
+          description: Unexpected Error.
           schema:
             $ref: '#/definitions/Error'
     post:
-      description: Creates or update new job offer
+      description: Creates or update new job offer.
       produces:
         - application/json
       parameters:
         - name: offer
           in: body
-          description: Offer to add to DB
+          description: Offer to add to DB.
+          required: true
+          schema:
+            $ref: '#/definitions/OfferDTO'
+      responses:
+        '200':
+          description: Offer successfully added to DB.
+        default:
+          description: Unexpected Error.
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      description: Update job offer with given URL.
+      produces:
+        - application/json
+      parameters:
+        - name: offer
+          in: body
+          description: Offer with URL and fields to update.
           required: true
           schema:
             $ref: '#/definitions/Offer'
       responses:
         '200':
-          description: Success
+          description: Offer successfully updated.
+        '404':
+          description: Offer with given URL not found.
         default:
-          description: Unexpected Error
+          description: Unexpected Error.
           schema:
             $ref: '#/definitions/Error'
 definitions:
   Offer:
     type: object
     required:
-      - offer_id
       - url
-      - raw_html
-      - date_posted
-      - valid_through
-      - employer
-      - job_title
-      - job_location
     properties:
       offer_id:
         type: string
@@ -83,6 +98,19 @@ definitions:
         type: string
       job_benefits:
         type: string
+
+  OfferDTO:
+    allOf:
+      - $ref: '#/definitions/Offer'
+    required:
+      - offer_id
+      - url
+      - raw_html
+      - date_posted
+      - valid_through
+      - employer
+      - job_title
+      - job_location
 
   Error:
     type: object

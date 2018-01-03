@@ -46,3 +46,17 @@ def test_get_offers_resource_query_mongo_db(test_client):
         response = test_client.get('/offers')
     assert response.status_code == 200
     assert json.loads(response.data.strip()) == {'links': []}
+
+
+def test_update_offer_resource_query_mongo_db(test_client):
+    with mock.patch('jobsbrowser.api.resources.mongo'):
+        response = test_client.put(
+            '/offers',
+            data=json.dumps({
+                'url': 'foo.bar/',
+                'job_title': 'foo bar developer',
+            }),
+            content_type='application/json',
+        )
+    assert response.status_code == 200
+    assert response.data.strip() == b'{}'
