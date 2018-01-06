@@ -1,5 +1,5 @@
-from .. import app
 from .bases import MongoDBTask
+from .. import app
 
 
 @app.task(base=MongoDBTask)
@@ -10,5 +10,7 @@ def save_to_mongodb(offer):
     """
     save_to_mongodb.mongodb.get_collection(
         app.conf.get('MONGO_RESULTS_COLLECTION'),
-    ).insert_one(offer)
+    ).update_one(
+        {'offer_id': offer['id']}, {'tags': offer['tags']}
+    )
     return offer
