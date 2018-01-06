@@ -11,6 +11,6 @@ def save_to_mongodb(offer):
     save_to_mongodb.mongodb.get_collection(
         app.conf.get('MONGO_RESULTS_COLLECTION'),
     ).update_one(
-        {'offer_id': offer['id']}, {'tags': offer['tags']}
+        {'offer_id': offer['id']}, {'$set': {'tags': offer['tags']}}
     )
     return offer
