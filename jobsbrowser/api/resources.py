@@ -8,6 +8,8 @@ from flask import (
     request,
 )
 
+from jobsbrowser.pipeline.chains import pracuj_pipeline
+
 pages_bp = Blueprint('pages', __name__)
 mongo = PyMongo()
 
@@ -26,7 +28,7 @@ def add_offer():
         offer,
         upsert=True,
     )
-    # TODO: run tasks
+    pracuj_pipeline(offer)
     return jsonify({})
 
 
