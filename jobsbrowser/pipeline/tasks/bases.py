@@ -49,5 +49,5 @@ class TagsFindingTask(MongoDBTask):
                 new_stack.append(self.tags_dict[token])
             stack = new_stack
 
-        offer["tags"] = offer_tags
+        offer["tags"] = list(set(offer_tags))
         return offer

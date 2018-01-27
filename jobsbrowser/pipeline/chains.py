@@ -3,6 +3,7 @@ from celery import chain
 from .tasks import (
     detect_language,
     find_tags,
+    post_to_stats_service,
     prepare,
     remove_stopwords,
     save_to_mongodb,
@@ -18,4 +19,5 @@ pracuj_pipeline = chain(
     remove_stopwords.s(),
     find_tags.s(),
     save_to_mongodb.s(),
+    post_to_stats_service.s(),
 )
